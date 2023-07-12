@@ -17,66 +17,57 @@ public class Car1 : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            frontRightWheelCollider.motorTorque = torque;
-            rearRightWheelCollider.motorTorque = torque;
-            frontLeftWheelCollider.motorTorque = torque;
-            rearLeftWheelCollider.motorTorque = torque;
-
-            frontRightWheelCollider.brakeTorque = 0;
-            rearRightWheelCollider.brakeTorque = 0;
-            frontLeftWheelCollider.brakeTorque = 0;
-            rearLeftWheelCollider.brakeTorque = 0;
-
+            ApplyTorque(torque);
+            ApplyBrake(0);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            ApplyTorque(-torque); // Aplica torque negativo para ir en reversa
+            ApplyBrake(0);
         }
         else
         {
-            frontRightWheelCollider.motorTorque = 0;
-            rearRightWheelCollider.motorTorque = 0;
-            frontLeftWheelCollider.motorTorque = 0;
-            rearLeftWheelCollider.motorTorque = 0;
+            ApplyTorque(0);
+            ApplyBrake(torque);
         }
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            frontRightWheelCollider.motorTorque = 0;
-            rearRightWheelCollider.motorTorque = 0;
-            frontLeftWheelCollider.motorTorque = 0;
-            rearLeftWheelCollider.motorTorque = 0;
-
-            frontRightWheelCollider.brakeTorque = torque;
-            rearRightWheelCollider.brakeTorque = torque;
-            frontLeftWheelCollider.brakeTorque = torque;
-            rearLeftWheelCollider.brakeTorque = torque;
-        }
-        else
-        {
-            frontRightWheelCollider.brakeTorque = 0;
-            rearRightWheelCollider.brakeTorque = 0;
-            frontLeftWheelCollider.brakeTorque = 0;
-            rearLeftWheelCollider.brakeTorque = 0;
-        }
         if (Input.GetKey(KeyCode.D))
         {
-            frontLeftWheelCollider.steerAngle = angle;
-            frontRightWheelCollider.steerAngle = angle;
+            ApplySteerAngle(angle);
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            ApplySteerAngle(-angle);
         }
         else
         {
-            if (Input.GetKey(KeyCode.A))
-            {
-                frontLeftWheelCollider.steerAngle = -angle;
-                frontRightWheelCollider.steerAngle = -angle;
-            }
-            else
-            {
-                frontLeftWheelCollider.steerAngle = 0;
-                frontRightWheelCollider.steerAngle = 0;
-            }
+            ApplySteerAngle(0);
         }
         UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
         UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
         UpdateSingleWheel(rearRightWheelCollider, rearRightWheelTransform);
         UpdateSingleWheel(rearLeftWheelCollider, rearLeftWheelTransform);
+    }
+    private void ApplyTorque(float torque)
+    {
+        frontRightWheelCollider.motorTorque = torque;
+        rearRightWheelCollider.motorTorque = torque;
+        frontLeftWheelCollider.motorTorque = torque;
+        rearLeftWheelCollider.motorTorque = torque;
+    }
+
+    private void ApplyBrake(float brakeTorque)
+    {
+        frontRightWheelCollider.brakeTorque = brakeTorque;
+        rearRightWheelCollider.brakeTorque = brakeTorque;
+        frontLeftWheelCollider.brakeTorque = brakeTorque;
+        rearLeftWheelCollider.brakeTorque = brakeTorque;
+    }
+
+    private void ApplySteerAngle(float steerAngle)
+    {
+        frontLeftWheelCollider.steerAngle = steerAngle;
+        frontRightWheelCollider.steerAngle = steerAngle;
     }
     private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
     {
